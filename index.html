@@ -1,1 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Tashrif by Tohfa Sumaiya</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fcfaf7;
+            color: #2b211d;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #2b211d;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        .hero {
+            min-height: 75vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            background: #efe5db;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #722b35;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        .collections {
+            padding: 70px 8%;
+            text-align: center;
+        }
+
+        .collections h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .collection-card {
+            background: white;
+            padding: 70px 20px;
+            border: 1px solid #eee;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #211b18;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 800px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .collection-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        TASHRIF
+    </div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Jamdani</a>
+        <a href="#">Muslin</a>
+        <a href="#">Manipuri</a>
+        <a href="#">Designer</a>
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div>
+
+        <p>Bangladeshi Heritage • Contemporary Elegance</p>
+
+        <h1>
+            Tradition, Woven for Today
+        </h1>
+
+        <p>
+            Discover timeless Bangladeshi sarees crafted with beauty,
+            heritage and individuality.
+        </p>
+
+        <a href="#" class="btn">
+            Explore Collection
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="collections">
+
+    <h2>Shop by Collection</h2>
+
+    <div class="collection-grid">
+
+        <div class="collection-card">
+            Jamdani
+        </div>
+
+        <div class="collection-card">
+            Muslin
+        </div>
+
+        <div class="collection-card">
+            Manipuri
+        </div>
+
+        <div class="collection-card">
+            Designer Saree
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    © 2026 Tashrif by Tohfa Sumaiya
+
+</footer>
+
+</body>
+</html>
