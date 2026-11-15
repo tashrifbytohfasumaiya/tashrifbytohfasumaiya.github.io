@@ -1,204 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Tashrif by Tohfa Sumaiya</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #fcfaf7;
-            color: #2b211d;
-        }
-
-        header {
-            background: #ffffff;
-            padding: 22px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #2b211d;
-            margin-left: 25px;
-            font-size: 15px;
-        }
-
-        .hero {
-            min-height: 75vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px;
-            background: #efe5db;
-        }
-
-        .hero h1 {
-            font-size: 55px;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #722b35;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 3px;
-        }
-
-        .collections {
-            padding: 70px 8%;
-            text-align: center;
-        }
-
-        .collections h2 {
-            font-size: 36px;
-            margin-bottom: 40px;
-        }
-
-        .collection-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .collection-card {
-            background: white;
-            padding: 70px 20px;
-            border: 1px solid #eee;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        footer {
-            background: #211b18;
-            color: white;
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-        }
-
-        @media (max-width: 800px) {
-
-            header {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav a {
-                margin: 0 8px;
-            }
-
-            .hero h1 {
-                font-size: 38px;
-            }
-
-            .collection-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tashrif by Tohfa Sumaiya</title>
+<meta name="description" content="Timeless Bangladeshi sarees crafted with beauty, heritage and individuality.">
+<meta property="og:title" content="Tashrif by Tohfa Sumaiya">
+<meta property="og:description" content="Timeless Bangladeshi sarees crafted with beauty, heritage and individuality.">
+<meta property="og:image" content="https://tashrifbytohfasumaiya.github.io/hero.jpg">
+<meta property="og:url" content="https://tashrifbytohfasumaiya.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Salty Feathers';font-display:swap;src:url('SaltyFeathers.woff2') format('woff2'),url('SaltyFeathers.otf') format('opentype'),url('SaltyFeathers.ttf') format('truetype')}
+:root{--script:'Salty Feathers','Mea Culpa','Brush Script MT',cursive;--ink:#1c1412;--cream:#f6ebd6;--paper:#fbf6ec;--maroon:#6b1d33;--gold:#b8893a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',Arial,sans-serif;color:var(--ink);background:var(--paper)}
+header{position:sticky;top:0;z-index:10;background:rgba(251,246,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e6d8bb;text-align:center;padding:10px 16px}
+header img{height:54px;display:block;margin:0 auto 4px}
+nav a{color:var(--ink);text-decoration:none;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;margin:0 12px;display:inline-block;padding:4px 0}
+nav a:hover{color:var(--maroon)}
+.hero{min-height:88vh;display:flex;align-items:center;padding:60px 8%;color:#fff;
+background-color:#4a1424;
+background-image:linear-gradient(90deg,rgba(28,10,16,.82) 0%,rgba(28,10,16,.45) 45%,rgba(28,10,16,.05) 100%),url('hero.jpg');
+background-size:cover;background-position:center right}
+.hero-text{max-width:100%}.hero p{max-width:520px}
+.eyebrow{letter-spacing:4px;text-transform:uppercase;font-size:14px;color:#f1d79a;margin-bottom:18px}
+h1{font-family:var(--script);font-size:min(9vw,84px);line-height:1.1;font-weight:400;white-space:nowrap}
+.hero p{font-size:19px;font-weight:300;line-height:1.6;margin:22px 0 32px;color:#f5e9ea}
+.btn{display:inline-block;background:var(--gold);color:#fff;text-decoration:none;padding:15px 34px;letter-spacing:2px;text-transform:uppercase;font-size:14px;border:1px solid var(--gold);transition:.25s}
+.btn:hover{background:transparent;color:#f1d79a}
+.intro{text-align:center;padding:70px 8% 30px;max-width:820px;margin:auto}
+.intro h2,.coll h2{font-family:var(--script);font-size:clamp(48px,6.5vw,72px);font-weight:400}
+.intro p{margin-top:16px;line-height:1.8;font-size:18px;font-weight:300;color:#4a3d38}
+.orn{width:70px;height:2px;background:var(--gold);margin:18px auto}
+.coll{padding:40px 6% 80px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;margin-top:36px}
+.card{position:relative;aspect-ratio:3/4;display:flex;align-items:flex-end;justify-content:center;text-decoration:none;color:#fff;overflow:hidden;
+background:linear-gradient(160deg,#8a2340,#4a1424)}
+.card::before{content:"";position:absolute;inset:0;background:var(--img) center/cover;transition:transform .5s}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,8,12,.8),transparent 55%)}
+.card:hover::before{transform:scale(1.06)}
+.card span{position:relative;z-index:1;font-family:var(--script);font-size:52px;font-weight:400;padding:0 10px 18px}
+.card:nth-child(2){background:linear-gradient(160deg,#c9a45c,#7a5520)}
+.card:nth-child(3){background:linear-gradient(160deg,#2f5d55,#16302c)}
+.card:nth-child(4){background:linear-gradient(160deg,#5b3a6e,#2a1838)}
+footer{background:#241017;color:#e9d9c0;text-align:center;padding:46px 20px}
+footer img{height:60px;filter:invert(1) brightness(1.1);margin-bottom:12px}
+footer a{color:#f1d79a;text-decoration:none}
+footer p{font-weight:300;line-height:1.8}
+@media(max-width:640px){
+ .hero{min-height:80vh;padding:50px 7%;background-position:70% center;background-image:linear-gradient(0deg,rgba(28,10,16,.85) 0%,rgba(28,10,16,.35) 70%,rgba(28,10,16,.15) 100%),url('hero.jpg')}
+ .hero{align-items:flex-end}
+ nav a{margin:0 7px;font-size:13px}
+}
+</style>
 </head>
-
 <body>
-
 <header>
-
-    <div class="logo">
-        TASHRIF
-    </div>
-
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Jamdani</a>
-        <a href="#">Muslin</a>
-        <a href="#">Manipuri</a>
-        <a href="#">Designer</a>
-    </nav>
-
+ <img src="logo.png" alt="Tashrif by Tohfa Sumaiya">
+ <nav>
+  <a href="#home">Home</a><a href="collection.html?c=jamdani">Jamdani</a><a href="collection.html?c=muslin">Muslin</a><a href="collection.html?c=manipuri">Manipuri</a><a href="collection.html?c=designer">Designer</a>
+ </nav>
 </header>
 
-
-<section class="hero">
-
-    <div>
-
-        <p>Bangladeshi Heritage • Contemporary Elegance</p>
-
-        <h1>
-            Tradition, Woven for Today
-        </h1>
-
-        <p>
-            Discover timeless Bangladeshi sarees crafted with beauty,
-            heritage and individuality.
-        </p>
-
-        <a href="#" class="btn">
-            Explore Collection
-        </a>
-
-    </div>
-
+<section class="hero" id="home">
+ <div class="hero-text">
+  <div class="eyebrow">Bangladeshi Heritage • Contemporary Elegance</div>
+  <h1>Tradition, Woven for Today</h1>
+  <p>Discover timeless Bangladeshi sarees crafted with beauty, heritage and individuality.</p>
+  <a class="btn" href="#collections">Explore Collection</a>
+ </div>
 </section>
 
-
-<section class="collections">
-
-    <h2>Shop by Collection</h2>
-
-    <div class="collection-grid">
-
-        <div class="collection-card">
-            Jamdani
-        </div>
-
-        <div class="collection-card">
-            Muslin
-        </div>
-
-        <div class="collection-card">
-            Manipuri
-        </div>
-
-        <div class="collection-card">
-            Designer Saree
-        </div>
-
-    </div>
-
+<section class="intro">
+ <h2>Wear Your Story</h2>
+ <div class="orn"></div>
+ <p>Our clothes are not just fabric — they carry confidence, comfort, and a piece of who you are. Wear your story, feel your strength.</p>
 </section>
 
+<section class="coll" id="collections">
+ <h2>Shop by Collection</h2>
+ <div class="orn"></div>
+ <div class="grid">
+  <a class="card" href="collection.html?c=jamdani" data-c="jamdani"><span>Jamdani</span></a>
+  <a class="card" href="collection.html?c=muslin" data-c="muslin"><span>Muslin</span></a>
+  <a class="card" href="collection.html?c=manipuri" data-c="manipuri"><span>Manipuri</span></a>
+  <a class="card" href="collection.html?c=designer" data-c="designer"><span>Designer Saree</span></a>
+ </div>
+</section>
 
 <footer>
-
-    © 2026 Tashrif by Tohfa Sumaiya
-
+ <img src="logo.png" alt="Tashrif">
+ <p>Contact: <a href="mailto:tashrifbytohfasumaiya@gmail.com">tashrifbytohfasumaiya@gmail.com</a></p>
+ <p>© 2026 Tashrif by Tohfa Sumaiya</p>
 </footer>
-
+<script>
+const REPO="tashrifbytohfasumaiya/tashrifbytohfasumaiya.github.io";
+async function listPhotos(c){
+ const k="ph_"+c;
+ try{const t=sessionStorage.getItem(k);if(t)return JSON.parse(t);}catch(e){}
+ try{
+  const r=await fetch(`https://api.github.com/repos/${REPO}/contents/images/${c}`);
+  if(!r.ok)return [];
+  const names=(await r.json()).filter(f=>/\.(jpe?g|png|webp)$/i.test(f.name)).map(f=>f.name).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  try{sessionStorage.setItem(k,JSON.stringify(names));}catch(e){}
+  return names;
+ }catch(e){return [];}
+}
+document.querySelectorAll('.card[data-c]').forEach(async card=>{
+ const names=await listPhotos(card.dataset.c);
+ if(names.length)card.style.setProperty('--img',`url('images/${card.dataset.c}/${encodeURIComponent(names[0])}')`);
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collection | Tashrif by Tohfa Sumaiya</title>
+<link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Salty Feathers';font-display:swap;src:url('SaltyFeathers.woff2') format('woff2'),url('SaltyFeathers.otf') format('opentype'),url('SaltyFeathers.ttf') format('truetype')}
+:root{--script:'Salty Feathers','Mea Culpa','Brush Script MT',cursive;--ink:#1c1412;--paper:#fbf6ec;--maroon:#6b1d33;--gold:#b8893a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',Arial,sans-serif;color:var(--ink);background:var(--paper)}
+header{position:sticky;top:0;z-index:10;background:rgba(251,246,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e6d8bb;text-align:center;padding:10px 16px}
+header img{height:54px;display:block;margin:0 auto 4px}
+nav a{color:var(--ink);text-decoration:none;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;margin:0 12px;display:inline-block;padding:4px 0}
+nav a:hover,nav a.on{color:var(--maroon);border-bottom:2px solid var(--gold)}
+.top{text-align:center;padding:60px 6% 20px}
+.top h1{font-family:var(--script);font-size:clamp(60px,9vw,96px);font-weight:400}
+.orn{width:70px;height:2px;background:var(--gold);margin:16px auto}
+.top p{font-weight:300;font-size:18px;color:#4a3d38}
+.gal{columns:3 260px;column-gap:16px;padding:20px 5% 70px;max-width:1300px;margin:auto}
+.gal img{width:100%;display:block;margin-bottom:16px;cursor:zoom-in;transition:.3s;background:#eadcc0}
+.gal img:hover{transform:scale(1.02)}
+.empty{text-align:center;padding:60px 6% 90px;font-size:19px;font-weight:300;color:#4a3d38}
+.back{display:block;text-align:center;margin-bottom:60px}
+.back a{color:var(--maroon);text-decoration:none;letter-spacing:2px;text-transform:uppercase;font-size:14px}
+#lb{position:fixed;inset:0;background:rgba(15,6,9,.93);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
+#lb img{max-width:94vw;max-height:92vh}
+footer{background:#241017;color:#e9d9c0;text-align:center;padding:40px 20px;font-weight:300;line-height:1.8}
+footer a{color:#f1d79a;text-decoration:none}
+@media(max-width:640px){nav a{margin:0 7px;font-size:13px}.gal{columns:2 140px;column-gap:10px}.gal img{margin-bottom:10px}}
+</style>
+</head>
+<body>
+<header>
+ <a href="index.html"><img src="logo.png" alt="Tashrif by Tohfa Sumaiya"></a>
+ <nav id="nav">
+  <a href="index.html">Home</a><a href="collection.html?c=jamdani" data-c="jamdani">Jamdani</a><a href="collection.html?c=muslin" data-c="muslin">Muslin</a><a href="collection.html?c=manipuri" data-c="manipuri">Manipuri</a><a href="collection.html?c=designer" data-c="designer">Designer</a>
+ </nav>
+</header>
+<section class="top"><h1 id="title">Collection</h1><div class="orn"></div><p id="sub"></p></section>
+<div id="out"></div>
+<div class="back"><a href="index.html">← Back to all collections</a></div>
+<div id="lb"><img alt=""></div>
+<footer>Contact: <a href="mailto:tashrifbytohfasumaiya@gmail.com">tashrifbytohfasumaiya@gmail.com</a><br>© 2026 Tashrif by Tohfa Sumaiya</footer>
+<script>
+const REPO="tashrifbytohfasumaiya/tashrifbytohfasumaiya.github.io";
+const TITLES={jamdani:"Jamdani",muslin:"Muslin",manipuri:"Manipuri",designer:"Designer Saree"};
+const c=(new URLSearchParams(location.search).get("c")||"jamdani").toLowerCase();
+const name=TITLES[c]||"Collection";
+document.title=name+" | Tashrif by Tohfa Sumaiya";
+document.getElementById("title").textContent=name;
+document.querySelectorAll("#nav a[data-c]").forEach(a=>{if(a.dataset.c===c)a.classList.add("on")});
+async function listPhotos(c){
+ try{
+  const r=await fetch(`https://api.github.com/repos/${REPO}/contents/images/${c}`);
+  if(!r.ok)return [];
+  return (await r.json()).filter(f=>/\.(jpe?g|png|webp)$/i.test(f.name)).map(f=>f.name).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+ }catch(e){return [];}
+}
+(async()=>{
+ const out=document.getElementById("out"),sub=document.getElementById("sub");
+ const names=await listPhotos(c);
+ if(!names.length){out.innerHTML='<div class="empty">Our '+name+' collection is coming soon.</div>';return;}
+ sub.textContent=names.length+" designs";
+ const g=document.createElement("div");g.className="gal";
+ names.forEach(n=>{const i=document.createElement("img");i.loading="lazy";i.alt=name+" saree";i.src=`images/${c}/${encodeURIComponent(n)}`;i.onclick=()=>{lb.firstElementChild.src=i.src;lb.style.display="flex"};g.appendChild(i);});
+ out.appendChild(g);
+})();
+const lb=document.getElementById("lb");lb.onclick=()=>lb.style.display="none";
+</script>
+</body>
+</html>
