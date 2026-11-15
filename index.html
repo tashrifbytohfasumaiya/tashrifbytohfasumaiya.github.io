@@ -23,7 +23,7 @@ nav a{color:var(--ink);text-decoration:none;font-size:15px;letter-spacing:1.5px;
 nav a:hover{color:var(--maroon)}
 .hero{min-height:88vh;display:flex;align-items:center;padding:60px 8%;color:#fff;
 background-color:#4a1424;
-background-image:linear-gradient(90deg,rgba(28,10,16,.82) 0%,rgba(28,10,16,.45) 45%,rgba(28,10,16,.05) 100%),url('hero.jpg');
+background-image:url('hero.jpg');
 background-size:cover;background-position:center right}
 .hero-text{max-width:100%}.hero p{max-width:520px}
 .eyebrow{letter-spacing:4px;text-transform:uppercase;font-size:14px;color:#f1d79a;margin-bottom:18px}
@@ -51,10 +51,32 @@ footer img{height:60px;filter:invert(1) brightness(1.1);margin-bottom:12px}
 footer a{color:#f1d79a;text-decoration:none}
 footer p{font-weight:300;line-height:1.8}
 @media(max-width:640px){
- .hero{min-height:80vh;padding:50px 7%;background-position:70% center;background-image:linear-gradient(0deg,rgba(28,10,16,.85) 0%,rgba(28,10,16,.35) 70%,rgba(28,10,16,.15) 100%),url('hero.jpg')}
+ .hero{min-height:80vh;padding:50px 7%;background-position:70% center;background-image:url('hero.jpg')}
  .hero{align-items:flex-end}
  nav a{margin:0 7px;font-size:13px}
 }
+.hero{position:relative;overflow:hidden}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(28,10,16,.82) 0%,rgba(28,10,16,.45) 45%,rgba(28,10,16,.08) 100%)}
+.hero-text{position:relative;z-index:2}
+@media(max-width:640px){.hero::before{background:linear-gradient(0deg,rgba(28,10,16,.85) 0%,rgba(28,10,16,.35) 70%,rgba(28,10,16,.15) 100%)}}
+@media(prefers-reduced-motion:reduce){.hero video{display:none}}
+
+@media(max-width:760px){
+ .hero{align-items:flex-end;min-height:90vh}
+ h1{font-size:7.4vw}
+ .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+ .hero::before{background:linear-gradient(0deg,rgba(28,10,16,.88) 0%,rgba(28,10,16,.4) 55%,rgba(28,10,16,.05) 100%)}
+}
+@media(min-width:761px){
+ .hero{background:linear-gradient(135deg,#2a0d17,#5b1a2f 70%,#7a2340);justify-content:space-between;gap:40px;padding-top:50px;padding-bottom:50px}
+ .hero::before{background:linear-gradient(90deg,rgba(28,10,16,.5),rgba(28,10,16,.2))}
+ .hero video{position:relative;inset:auto;order:2;flex:none;width:auto;height:min(82vh,700px);aspect-ratio:9/16;object-fit:cover;border-radius:16px;border:1px solid rgba(255,255,255,.35);box-shadow:0 20px 60px rgba(0,0,0,.45);z-index:2}
+ h1{font-size:min(64px,calc((84vw - min(82vh,700px)*.5625 - 50px)/9.6))}
+}
+
+.hero canvas.blur{position:absolute;inset:-8%;width:116%;height:116%;object-fit:cover;filter:blur(30px) brightness(.65) saturate(1.2);z-index:0}
+@media(max-width:760px){.hero canvas.blur{display:none}}
 </style>
 </head>
 <body>
@@ -66,6 +88,8 @@ footer p{font-weight:300;line-height:1.8}
 </header>
 
 <section class="hero" id="home">
+ <canvas class="blur" width="90" height="160" aria-hidden="true"></canvas>
+ <video autoplay muted loop playsinline preload="metadata" poster="hero.jpg"><source src="hero.mp4" type="video/mp4"></video>
  <div class="hero-text">
   <div class="eyebrow">Bangladeshi Heritage • Contemporary Elegance</div>
   <h1>Tradition, Woven for Today</h1>
@@ -113,6 +137,14 @@ document.querySelectorAll('.card[data-c]').forEach(async card=>{
  const names=await listPhotos(card.dataset.c);
  if(names.length)card.style.setProperty('--img',`url('images/${card.dataset.c}/${encodeURIComponent(names[0])}')`);
 });
+</script>
+<script>
+(function(){
+ var v=document.querySelector('.hero video'),c=document.querySelector('.hero canvas.blur');
+ if(!v||!c||!c.getContext)return;
+ var x=c.getContext('2d');
+ (function d(){ if(v.readyState>=2&&v.videoWidth){x.drawImage(v,0,0,c.width,c.height);} requestAnimationFrame(d); })();
+})();
 </script>
 </body>
 </html>
