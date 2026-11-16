@@ -36,6 +36,10 @@ footer a{color:#f1d79a;text-decoration:none}
 .sheet{background:#fff;border-radius:8px;max-width:520px;width:100%;max-height:94vh;overflow-y:auto;padding:14px;position:relative}
 .sheet .x{position:absolute;top:8px;right:8px;width:40px;height:40px;border:0;border-radius:50%;background:var(--paper);font-size:24px;cursor:pointer}
 .sheet .big{width:100%;max-height:60vh;object-fit:contain;display:block;background:#eadcc0;border-radius:4px}
+.th{display:flex;gap:8px;margin-top:8px}
+.th button{flex:1;max-width:25%;padding:0;border:2px solid transparent;border-radius:4px;background:none;cursor:pointer;overflow:hidden}
+.th button.on{border-color:var(--maroon)}
+.th img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#eadcc0}
 .sheet h3{font-weight:400;font-size:20px;margin:12px 0 2px}
 .sheet .pr{font-size:20px;color:var(--maroon);font-weight:500;margin-bottom:12px}
 .acts{display:flex;gap:10px;flex-wrap:wrap}
@@ -71,6 +75,7 @@ footer a{color:#f1d79a;text-decoration:none}
  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt">
   <button class="x" id="cl" aria-label="Close">&times;</button>
   <img class="big" id="bg" alt="">
+  <div class="th" id="th"></div>
   <h3 id="mt"></h3>
   <p class="pr" id="mp"></p>
   <div class="acts" id="acts">
@@ -118,6 +123,8 @@ async function listPhotos(c){
 
 // File-er naam theke price ber kore. Example: monipuri-01-TK7000.jpg ba monipuri-01_7000.jpg  ->  code: monipuri-01, price: Tk 7,000
 function info(n){
+ const x=n.match(/^(.*)_([a-z])\.(?:jpe?g|png|webp)$/i);
+ if(x)return {code:x[1],price:"",extra:true};
  const m=n.match(/^(.*?)(?:(?:[-_]?TK|_)(\d{3,}))?\.(?:jpe?g|png|webp)$/i);
  const code=m?m[1]:n;
  const price=m&&m[2]?"Tk "+Number(m[2]).toLocaleString("en-US"):"";
@@ -129,11 +136,15 @@ let last=null;
 function showForm(s){of.classList.toggle("show",s);acts.style.display=s?"none":"flex";if(s)document.getElementById("fn").focus()}
 function msg(t,x){st.className=t;st.textContent=x}
 
-function openPop(src,code,price,opener){
+function openPop(srcs,code,price,opener){
  last=opener;
  const title=name+" Saree ("+code+")";
- document.getElementById("bg").src=src;
- document.getElementById("bg").alt=title;
+ const bg=document.getElementById("bg"),th=document.getElementById("th");
+ bg.src=srcs[0];
+ bg.alt=title;
+ th.innerHTML="";
+ th.style.display=srcs.length>1?"flex":"none";
+ srcs.forEach((s,i)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Picture "+(i+1));if(i===0)b.className="on";const im=document.createElement("img");im.src=s;im.alt="";b.appendChild(im);b.onclick=()=>{bg.src=s;th.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on")};th.appendChild(b)});
  document.getElementById("mt").textContent=title;
  document.getElementById("mp").textContent=price||"Price jante WhatsApp-e message korun";
  document.getElementById("wl").href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent("Ami "+title+(price?" ("+price+")":"")+" order korte chai.");
@@ -152,18 +163,26 @@ function closePop(){lb.classList.remove("open");lb.setAttribute("aria-hidden","t
  const out=document.getElementById("out"),sub=document.getElementById("sub");
  const names=await listPhotos(c);
  if(!names.length){out.innerHTML='<div class="empty">Our '+name+' collection is coming soon.</div>';return;}
- sub.textContent=names.length+" designs";
- const g=document.createElement("div");g.className="gal";
+ const groups={},order=[];
  names.forEach(n=>{
-  const {code,price}=info(n);
-  const src=`images/${c}/${encodeURIComponent(n)}`;
+  const d=info(n),u=`images/${c}/${encodeURIComponent(n)}`;
+  if(!groups[d.code]){groups[d.code]={main:null,price:"",extras:[]};order.push(d.code)}
+  const G=groups[d.code];
+  if(d.extra)G.extras.push(u);else{G.main=u;G.price=d.price}
+ });
+ sub.textContent=order.length+" designs";
+ const g=document.createElement("div");g.className="gal";
+ order.forEach(code=>{
+  const G=groups[code],price=G.price;
+  const srcs=G.main?[G.main].concat(G.extras):G.extras;
+  const src=srcs[0];
   const f=document.createElement("figure");f.tabIndex=0;f.setAttribute("role","button");
   const i=document.createElement("img");i.loading="lazy";i.alt=name+" saree "+code;i.src=src;
   const cap=document.createElement("figcaption");
   cap.innerHTML=(price?price:"Order now")+"<small>Click to order</small>";
   f.append(i,cap);
-  f.onclick=()=>openPop(src,code,price,f);
-  f.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openPop(src,code,price,f)}};
+  f.onclick=()=>openPop(srcs,code,price,f);
+  f.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openPop(srcs,code,price,f)}};
   g.appendChild(f);
  });
  out.appendChild(g);
