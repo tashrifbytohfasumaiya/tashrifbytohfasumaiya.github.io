@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 @font-face{font-family:'Salty Feathers';font-display:swap;src:url('SaltyFeathers.woff2') format('woff2'),url('SaltyFeathers.otf') format('opentype'),url('SaltyFeathers.ttf') format('truetype')}
-:root{--script:'Salty Feathers','Mea Culpa','Brush Script MT',cursive;--ink:#1c1412;--paper:#fbf6ec;--maroon:#6b1d33;--gold:#b8893a}
+:root{--script:'Salty Feathers','Mea Culpa','Brush Script MT',cursive;--ink:#1c1412;--paper:#fbf6ec;--maroon:#6b1d33;--gold:#b8893a;--wa:#1f7a4d}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Jost',Arial,sans-serif;color:var(--ink);background:var(--paper)}
 header{position:sticky;top:0;z-index:10;background:rgba(251,246,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e6d8bb;text-align:center;padding:10px 16px}
@@ -19,16 +19,41 @@ nav a:hover,nav a.on{color:var(--maroon);border-bottom:2px solid var(--gold)}
 .orn{width:70px;height:2px;background:var(--gold);margin:16px auto}
 .top p{font-weight:300;font-size:18px;color:#4a3d38}
 .gal{columns:3 260px;column-gap:16px;padding:20px 5% 70px;max-width:1300px;margin:auto}
-.gal img{width:100%;display:block;margin-bottom:16px;cursor:zoom-in;transition:.3s;background:#eadcc0}
-.gal img:hover{transform:scale(1.02)}
+.gal figure{break-inside:avoid;margin-bottom:16px;cursor:pointer;background:#fff;border:1px solid #eadcc0}
+.gal figure:focus-visible{outline:3px solid var(--maroon);outline-offset:2px}
+.gal img{width:100%;display:block;background:#eadcc0}
+.gal figcaption{padding:10px 12px;text-align:center;font-size:16px;color:var(--maroon);font-weight:500}
+.gal figcaption small{display:block;color:#6b5d55;font-weight:300;font-size:13px}
 .empty{text-align:center;padding:60px 6% 90px;font-size:19px;font-weight:300;color:#4a3d38}
 .back{display:block;text-align:center;margin-bottom:60px}
 .back a{color:var(--maroon);text-decoration:none;letter-spacing:2px;text-transform:uppercase;font-size:14px}
-#lb{position:fixed;inset:0;background:rgba(15,6,9,.93);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}
-#lb img{max-width:94vw;max-height:92vh}
 footer{background:#241017;color:#e9d9c0;text-align:center;padding:40px 20px;font-weight:300;line-height:1.8}
 footer a{color:#f1d79a;text-decoration:none}
-@media(max-width:640px){nav a{margin:0 7px;font-size:13px}.gal{columns:2 140px;column-gap:10px}.gal img{margin-bottom:10px}}
+
+/* Popup */
+#lb{position:fixed;inset:0;background:rgba(15,6,9,.9);display:none;align-items:center;justify-content:center;padding:14px;z-index:50}
+#lb.open{display:flex}
+.sheet{background:#fff;border-radius:8px;max-width:520px;width:100%;max-height:94vh;overflow-y:auto;padding:14px;position:relative}
+.sheet .x{position:absolute;top:8px;right:8px;width:40px;height:40px;border:0;border-radius:50%;background:var(--paper);font-size:24px;cursor:pointer}
+.sheet .big{width:100%;max-height:60vh;object-fit:contain;display:block;background:#eadcc0;border-radius:4px}
+.sheet h3{font-weight:400;font-size:20px;margin:12px 0 2px}
+.sheet .pr{font-size:20px;color:var(--maroon);font-weight:500;margin-bottom:12px}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+.btn{flex:1 1 180px;display:inline-block;background:var(--maroon);color:#fff;text-decoration:none;padding:12px 16px;border:0;border-radius:4px;font:inherit;font-size:16px;text-align:center;cursor:pointer}
+.btn.wa{background:var(--wa)}
+.btn.ghost{background:none;color:var(--ink);border:1px solid #d8c9a8}
+.btn:focus-visible,.sheet input:focus-visible,.sheet textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.btn[disabled]{opacity:.6}
+#of{display:none}
+#of.show{display:block}
+#of label{display:block;margin:10px 0 4px;font-size:15px}
+#of input,#of textarea{width:100%;padding:10px;border:1px solid #bfb39d;border-radius:4px;font:inherit}
+#of .row{display:flex;gap:10px;margin-top:14px}
+.hp{position:absolute;left:-9999px}
+#st{display:none;margin-top:12px;padding:10px;border-radius:4px;font-size:15px}
+#st.ok{display:block;background:#e6f4ea;color:#1b5e34}
+#st.err{display:block;background:#fdeaea;color:#8a1f1f}
+@media(max-width:640px){nav a{margin:0 7px;font-size:13px}.gal{columns:2 140px;column-gap:10px}.gal figure{margin-bottom:10px}}
 </style>
 </head>
 <body>
@@ -41,16 +66,48 @@ footer a{color:#f1d79a;text-decoration:none}
 <section class="top"><h1 id="title">Collection</h1><div class="orn"></div><p id="sub"></p></section>
 <div id="out"></div>
 <div class="back"><a href="index.html">← Back to all collections</a></div>
-<div id="lb"><img alt=""></div>
+
+<div id="lb" aria-hidden="true">
+ <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <button class="x" id="cl" aria-label="Close">&times;</button>
+  <img class="big" id="bg" alt="">
+  <h3 id="mt"></h3>
+  <p class="pr" id="mp"></p>
+  <div class="acts" id="acts">
+   <button type="button" class="btn" id="wo">Order on Website</button>
+   <a class="btn wa" id="wl" href="#" target="_blank" rel="noopener">Order on WhatsApp</a>
+  </div>
+  <form id="of" novalidate>
+   <input type="hidden" name="product" id="fp">
+   <input type="hidden" name="price" id="fq">
+   <input type="hidden" name="_subject" id="fs">
+   <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+   <label for="fn">Your name</label><input id="fn" name="name" type="text" autocomplete="name" required>
+   <label for="fh">Phone number</label><input id="fh" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required>
+   <label for="fa">Delivery address</label><textarea id="fa" name="address" rows="3" autocomplete="street-address" required></textarea>
+   <label for="fk">Quantity</label><input id="fk" name="quantity" type="number" min="1" value="1" required>
+   <label for="fo">Note (optional)</label><textarea id="fo" name="note" rows="2"></textarea>
+   <div class="row"><button type="button" class="btn ghost" id="bk">Back</button><button type="submit" class="btn" id="sd">Place Order</button></div>
+   <p id="st" role="status"></p>
+  </form>
+ </div>
+</div>
+
 <footer>Contact: <a href="mailto:tashrifbytohfasumaiya@gmail.com">tashrifbytohfasumaiya@gmail.com</a><br>© 2026 Tashrif by Tohfa Sumaiya</footer>
 <script>
 const REPO="tashrifbytohfasumaiya/tashrifbytohfasumaiya.github.io";
+// Tomar WhatsApp number (880 diye, + chara)
+const WHATSAPP="8801XXXXXXXXX";
+// Formspree form link (formspree.io theke paoa)
+const FORM_URL="https://formspree.io/f/YOUR_FORM_ID";
+
 const TITLES={jamdani:"Jamdani",muslin:"Muslin",manipuri:"Manipuri",designer:"Designer Saree"};
 const c=(new URLSearchParams(location.search).get("c")||"jamdani").toLowerCase();
 const name=TITLES[c]||"Collection";
 document.title=name+" | Tashrif by Tohfa Sumaiya";
 document.getElementById("title").textContent=name;
 document.querySelectorAll("#nav a[data-c]").forEach(a=>{if(a.dataset.c===c)a.classList.add("on")});
+
 async function listPhotos(c){
  try{
   const r=await fetch(`https://api.github.com/repos/${REPO}/contents/images/${c}`);
@@ -58,16 +115,76 @@ async function listPhotos(c){
   return (await r.json()).filter(f=>/\.(jpe?g|png|webp)$/i.test(f.name)).map(f=>f.name).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
  }catch(e){return [];}
 }
+
+// File-er naam theke price ber kore. Example: monipuri-01-TK7000.jpg ba monipuri-01_7000.jpg  ->  code: monipuri-01, price: Tk 7,000
+function info(n){
+ const m=n.match(/^(.*?)(?:(?:[-_]?TK|_)(\d{3,}))?\.(?:jpe?g|png|webp)$/i);
+ const code=m?m[1]:n;
+ const price=m&&m[2]?"Tk "+Number(m[2]).toLocaleString("en-US"):"";
+ return {code,price};
+}
+
+const lb=document.getElementById("lb"),of=document.getElementById("of"),acts=document.getElementById("acts"),st=document.getElementById("st"),sd=document.getElementById("sd");
+let last=null;
+function showForm(s){of.classList.toggle("show",s);acts.style.display=s?"none":"flex";if(s)document.getElementById("fn").focus()}
+function msg(t,x){st.className=t;st.textContent=x}
+
+function openPop(src,code,price,opener){
+ last=opener;
+ const title=name+" Saree ("+code+")";
+ document.getElementById("bg").src=src;
+ document.getElementById("bg").alt=title;
+ document.getElementById("mt").textContent=title;
+ document.getElementById("mp").textContent=price||"Price jante WhatsApp-e message korun";
+ document.getElementById("wl").href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent("Ami "+title+(price?" ("+price+")":"")+" order korte chai.");
+ of.reset();
+ document.getElementById("fp").value=title;
+ document.getElementById("fq").value=price;
+ document.getElementById("fs").value="Notun order: "+title;
+ st.className="";st.textContent="";sd.style.display="";
+ showForm(false);
+ lb.classList.add("open");lb.setAttribute("aria-hidden","false");
+ document.getElementById("cl").focus();
+}
+function closePop(){lb.classList.remove("open");lb.setAttribute("aria-hidden","true");if(last)last.focus()}
+
 (async()=>{
  const out=document.getElementById("out"),sub=document.getElementById("sub");
  const names=await listPhotos(c);
  if(!names.length){out.innerHTML='<div class="empty">Our '+name+' collection is coming soon.</div>';return;}
  sub.textContent=names.length+" designs";
  const g=document.createElement("div");g.className="gal";
- names.forEach(n=>{const i=document.createElement("img");i.loading="lazy";i.alt=name+" saree";i.src=`images/${c}/${encodeURIComponent(n)}`;i.onclick=()=>{lb.firstElementChild.src=i.src;lb.style.display="flex"};g.appendChild(i);});
+ names.forEach(n=>{
+  const {code,price}=info(n);
+  const src=`images/${c}/${encodeURIComponent(n)}`;
+  const f=document.createElement("figure");f.tabIndex=0;f.setAttribute("role","button");
+  const i=document.createElement("img");i.loading="lazy";i.alt=name+" saree "+code;i.src=src;
+  const cap=document.createElement("figcaption");
+  cap.innerHTML=(price?price:"Order now")+"<small>Click to order</small>";
+  f.append(i,cap);
+  f.onclick=()=>openPop(src,code,price,f);
+  f.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openPop(src,code,price,f)}};
+  g.appendChild(f);
+ });
  out.appendChild(g);
 })();
-const lb=document.getElementById("lb");lb.onclick=()=>lb.style.display="none";
+
+document.getElementById("wo").onclick=()=>showForm(true);
+document.getElementById("bk").onclick=()=>showForm(false);
+document.getElementById("cl").onclick=closePop;
+lb.onclick=e=>{if(e.target===lb)closePop()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePop()});
+
+of.addEventListener("submit",e=>{
+ e.preventDefault();
+ const ph=document.getElementById("fh").value.replace(/[\s-]/g,"");
+ if(!of.checkValidity()||!/^(\+?88)?01[3-9]\d{8}$/.test(ph)){msg("err","Please fill every field. Phone number must be like 01XXXXXXXXX.");return}
+ sd.disabled=true;sd.textContent="Sending...";st.className="";
+ fetch(FORM_URL,{method:"POST",body:new FormData(of),headers:{Accept:"application/json"}})
+ .then(r=>{if(!r.ok)throw 0;of.reset();msg("ok","Thank you! We received your order and will confirm by phone soon.");sd.style.display="none"})
+ .catch(()=>msg("err","Could not send the order. Please order on WhatsApp."))
+ .finally(()=>{sd.disabled=false;sd.textContent="Place Order"});
+});
 </script>
 </body>
 </html>
